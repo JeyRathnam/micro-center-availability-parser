@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import re
-from config import urls
+from config import urls, mc_store_id
 import textwrap
 import smtplib
 import mail
@@ -53,16 +53,19 @@ def check_product_availability(html_text):
 
 
 if __name__ == "__main__":
-    cookies = {"storeSelected" : "131"}
+    cookies = {"storeSelected" : mc_store_id}
 
     for url in urls:
         r = requests.get(url, cookies=cookies, timeout=10)
         html_text = r.text
+        print("Running - {}".format(url))
 
         is_available, inventory, price, title = check_product_availability(html_text)
 
         if is_available:
             mail.send('Micro Center available - {}'.format(title), '{} - {} - {}'.format(title, price, inventory))
+        else:
+            print("unavailable - {}".format(title) )
 
 
 

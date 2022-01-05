@@ -2,6 +2,7 @@ urls = [
 
 ]
 
+mc_store_id = ''
 
 to_email = ''
 
